@@ -55,7 +55,7 @@ module.exports = {
             .not()
             .isEmpty()
             .withMessage("please provide short description about the post")
-            .isLength({ max: 3 })
+            .isLength({ max: 30 })
             .withMessage("Description of post  should be within 3 leters"),
         ];
 
