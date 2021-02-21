@@ -51,7 +51,7 @@ module.exports = {
         {
           $project: {
             _id: 0,
-            name: "$_id",
+            name: "$_id.name",
             posts: "$posts",
           },
         },
@@ -95,7 +95,7 @@ module.exports = {
         {
           $project: {
             _id: 0,
-            userDetails: "$_id",
+            name: "$_id.name",
             posts: "$posts",
           },
         },
