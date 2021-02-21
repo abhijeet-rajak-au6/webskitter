@@ -1,4 +1,8 @@
-const { addPost, getUserPost } = require("../Controllers/postController");
+const {
+  addPost,
+  getUserPost,
+  getAllUserPosts,
+} = require("../Controllers/postController");
 const { Send } = require("../middleware/Send");
 const { executeValidation } = require("../middleware/executeValidation");
 const { checkValidation } = require("../middleware/validate");
@@ -15,5 +19,6 @@ router.post("/add-post", [
 ]);
 
 router.get("/get-user-post", [authenticate, getUserPost, Send]);
+router.get("/get-all-user-post", [getAllUserPosts, Send]);
 
 module.exports = router;

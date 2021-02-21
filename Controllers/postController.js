@@ -64,4 +64,47 @@ module.exports = {
       next(new AppError(err.message, err.statusCode));
     }
   },
+
+  async getAllUserPosts(req, res, next) {
+    try {
+      const userAllPosts = await userModel.aggregate([
+        {
+          $lookup: {
+            from: "posts",
+            localField: "_id",
+            foreignField: "userId",
+            as: "Posts",
+          },
+        },
+        {
+          $unwind: "$Posts",
+        },
+        {
+          $project: {
+            name: 1,
+            "Posts.title": 1,
+            "Posts.description": 1,
+          },
+        },
+        {
+          $group: {
+            _id: { name: "$name", id: "$_id" },
+            posts: { $push: "$Posts" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            userDetails: "$_id",
+            posts: "$posts",
+          },
+        },
+      ]);
+      if (!userAllPosts.length) throw new AppError("No user post found !", 404);
+      req.locals = new Response("users post", 200, { userAllPosts });
+      next();
+    } catch (err) {
+      next(new AppError(err.message, err.statusCode));
+    }
+  },
 };
